@@ -24,7 +24,7 @@ func GetInstanceType() string {
 }
 
 // TODO: Refactor Structure and Interface for more easier follow that shares the same session
-func GetImdsMetadata() imds.InstanceIdentityDocument {
+func GetImdsMetadata() *imds.GetInstanceIdentityDocumentOutput {
 	ctx := context.Background()
 	c, err := config.LoadDefaultConfig(ctx)
 	if err != nil {
