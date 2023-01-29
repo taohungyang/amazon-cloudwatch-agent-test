@@ -65,8 +65,10 @@ resource "null_resource" "mount_efs" {
   provisioner "remote-exec" {
     # https://docs.aws.amazon.com/efs/latest/ug/mounting-fs-mount-helper-ec2-linux.html
     inline = [
-      "sudo mkdir ~/efs-mount-point",
-      "sudo mount -t efs -o tls ${aws_efs_file_system.efs.dns_name} ~/efs-mount-point/",
+      "chmod +x /tmp/install-efs-utils.sh",
+      "/tmp/install-efs-utils.sh",
+      "sudo mkdir ${var.efs_mount_point}",
+      "sudo mount -t efs -o tls ${aws_efs_file_system.efs.dns_name} ${var.efs_mount_point}/",
     ]
   }
 }
