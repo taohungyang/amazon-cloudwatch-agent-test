@@ -41,7 +41,7 @@ func (t *GlobalAppendDimensionsTestRunner) GetAgentConfigFileName() string {
 }
 
 func (t *GlobalAppendDimensionsTestRunner) GetMeasuredMetrics() []string {
-	return []string{"disk_used_percent"}
+	return []string{"cpu_time_active"}
 }
 
 func (t *GlobalAppendDimensionsTestRunner) validateNoAppendDimensionMetric(metricName string) status.TestResult {
@@ -63,6 +63,10 @@ func (t *GlobalAppendDimensionsTestRunner) validateNoAppendDimensionMetric(metri
 			Key:   "InstanceType",
 			Value: dimension.UnknownDimensionValue(),
 		},
+		{
+			Key:   "cpu",
+			Value: dimension.ExpectedDimensionValue{aws.String("cpu-total")},
+		},
 	})
 
 	if len(failed) > 0 {
@@ -70,7 +74,7 @@ func (t *GlobalAppendDimensionsTestRunner) validateNoAppendDimensionMetric(metri
 	}
 
 	fetcher := metric.MetricValueFetcher{}
-	values, err := fetcher.Fetch("MetricAppendDimensionTest", metricName, expDims, metric.AVERAGE)
+	values, err := fetcher.Fetch("MetricGlobalAppendDimensionTest", metricName, expDims, metric.AVERAGE)
 	log.Printf("metric values are %v", values)
 	if err != nil {
 		return testResult
@@ -85,13 +89,17 @@ func (t *GlobalAppendDimensionsTestRunner) validateNoAppendDimensionMetric(metri
 			Key:   "host",
 			Value: dimension.UnknownDimensionValue(),
 		},
+		{
+			Key:   "cpu",
+			Value: dimension.ExpectedDimensionValue{aws.String("cpu-total")},
+		},
 	})
 
 	if len(failed) > 0 {
 		return testResult
 	}
 
-	values, err = fetcher.Fetch("MetricAppendDimensionTest", metricName, dropDims, metric.AVERAGE)
+	values, err = fetcher.Fetch("MetricGlobalAppendDimensionTest", metricName, dropDims, metric.AVERAGE)
 	if err != nil || len(values) != 0 {
 		return testResult
 	}

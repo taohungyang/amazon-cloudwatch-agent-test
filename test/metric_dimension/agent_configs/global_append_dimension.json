@@ -6,7 +6,7 @@
     "logfile": ""
   },
   "metrics": {
-    "namespace": "MetricAppendDimensionTest",
+    "namespace": "MetricGlobalAppendDimensionTest",
     "append_dimensions":
     {
         "AutoScalingGroupName": "${aws:AutoScalingGroupName}",
@@ -15,8 +15,8 @@
         "InstanceType": "${aws:InstanceType}"
     },
     "metrics_collected": {
-      "disk": {
-        "measurement": ["used_percent"]
+      "cpu": {
+        "measurement": ["time_active"]
       }
     }
   }
