@@ -15,8 +15,8 @@
         "InstanceType": "${aws:InstanceType}"
     },
     "metrics_collected": {
-      "cpu": {
-        "measurement": ["time_active"]
+      "disk": {
+        "measurement": ["used_percent"]
       }
     }
   }

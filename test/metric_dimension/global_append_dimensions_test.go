@@ -41,7 +41,7 @@ func (t *GlobalAppendDimensionsTestRunner) GetAgentConfigFileName() string {
 }
 
 func (t *GlobalAppendDimensionsTestRunner) GetMeasuredMetrics() []string {
-	return []string{"cpu_time_active"}
+	return []string{"disk_used_percent"}
 }
 
 func (t *GlobalAppendDimensionsTestRunner) validateNoAppendDimensionMetric(metricName string) status.TestResult {
