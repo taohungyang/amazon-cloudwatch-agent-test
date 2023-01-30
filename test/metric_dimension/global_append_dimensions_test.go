@@ -24,7 +24,7 @@ func (t *GlobalAppendDimensionsTestRunner) Validate() status.TestGroupResult {
 	metricsToFetch := t.GetMeasuredMetrics()
 	testResults := make([]status.TestResult, len(metricsToFetch))
 	for i, metricName := range metricsToFetch {
-		testResults[i] = t.validateNoAppendDimensionMetric(metricName)
+		testResults[i] = t.validateGlobalAppendDimensionMetric(metricName)
 	}
 
 	return status.TestGroupResult{
@@ -45,7 +45,7 @@ func (t *GlobalAppendDimensionsTestRunner) GetMeasuredMetrics() []string {
 	return []string{"cpu_time_active"}
 }
 
-func (t *GlobalAppendDimensionsTestRunner) validateNoAppendDimensionMetric(metricName string) status.TestResult {
+func (t *GlobalAppendDimensionsTestRunner) validateGlobalAppendDimensionMetric(metricName string) status.TestResult {
 	testResult := status.TestResult{
 		Name:   metricName,
 		Status: status.FAILED,
@@ -85,6 +85,8 @@ func (t *GlobalAppendDimensionsTestRunner) validateNoAppendDimensionMetric(metri
 		return testResult
 	}
 
+	// this is making sure once dimensions in "append_dimensions" are tagged, the agent does drop the 
+	// host dimension. We should not see the same metrics with host dimension anymore
 	dropDims, failed := t.DimensionFactory.GetDimensions([]dimension.Instruction{
 		{
 			Key:   "host",
